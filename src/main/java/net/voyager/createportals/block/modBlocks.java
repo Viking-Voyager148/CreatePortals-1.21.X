@@ -1,10 +1,15 @@
 package net.voyager.createportals.block;
 
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.voyager.createportals.CreatePortals;
+import net.voyager.createportals.item.modItems;
 
 import java.util.function.Supplier;
 
@@ -14,8 +19,9 @@ public class modBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(CreatePortals.MODID);
 
-    public static final DeferredBlock<Block> BRASS_PORTAL_BLOCK = registerBlock(name:"brass_portal_block",
-    
+    public static final DeferredBlock<Block> BRASS_PORTAL_BLOCK = registerBlock("brass_portal_block",
+            () -> new Block(BlockBehaviour.Properties.of()
+                    .strength(4f).requiresCorrectToolForDrops().sound(SoundType.STONE)));
 
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
@@ -24,8 +30,8 @@ public class modBlocks {
         return toReturn;
     }
 
-    private static <T extends Block> void registerBlockItem(string name, Deferredblock<T> block) {
-
+    private static <T extends Block> void registerBlockItem(String name, DeferredBlock<T> block) {
+        modItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
     public static void register(IEventBus eventBus) {

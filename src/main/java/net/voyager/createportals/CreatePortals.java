@@ -1,6 +1,8 @@
 package net.voyager.createportals;
 
+import net.minecraft.world.item.CreativeModeTabs;
 import net.voyager.createportals.block.modBlocks;
+import net.voyager.createportals.item.modItems;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -38,6 +40,7 @@ public class CreatePortals
         NeoForge.EVENT_BUS.register(this);
 
         modBlocks.register(modEventBus);
+        modItems.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
@@ -49,9 +52,10 @@ public class CreatePortals
     }
 
     // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event)
-    {
-
+    private void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if(event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+            event.accept(modBlocks.BRASS_PORTAL_BLOCK);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
