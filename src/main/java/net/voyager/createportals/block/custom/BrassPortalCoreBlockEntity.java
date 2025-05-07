@@ -15,13 +15,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 
-public class PortalCoreBlockEntity extends KineticBlockEntity {
+public class BrassPortalCoreBlockEntity extends KineticBlockEntity {
 
     private float dialAngle = 0;
     private int selectionIndex = 0;  // Current selected destination index
     private int lastValidSelectionIndex = 0;  // Last valid destination index
 
-    public PortalCoreBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public BrassPortalCoreBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -52,7 +52,7 @@ public class PortalCoreBlockEntity extends KineticBlockEntity {
             // Update the selection if the angle has passed a valid destination
             selectionIndex = newSelection;
             lastValidSelectionIndex = selectionIndex; // Update the last valid increment
-            setSelectionIndex(selectionIndex); // Update or trigger any other actions for destination change
+            // setSelectionIndex(selectionIndex); // Update or trigger any other actions for destination change
         }
     }
 
