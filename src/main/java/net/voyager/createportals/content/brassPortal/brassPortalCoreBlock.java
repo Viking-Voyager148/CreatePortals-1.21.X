@@ -1,4 +1,4 @@
-package net.voyager.createportals.block;
+package net.voyager.createportals.content.brassPortal;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -9,13 +9,13 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.voyager.createportals.CreatePortals;
-import net.voyager.createportals.item.modItems;
+import net.voyager.createportals.content.item.modItems;
 
 import java.util.function.Supplier;
 
 
 
-public class modBlocks {
+public class brassPortalCoreBlock {
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(CreatePortals.MODID);
 

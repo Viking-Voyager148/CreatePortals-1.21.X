@@ -1,8 +1,8 @@
 package net.voyager.createportals;
 
 import net.minecraft.world.item.CreativeModeTabs;
-import net.voyager.createportals.block.modBlocks;
-import net.voyager.createportals.item.modItems;
+import net.voyager.createportals.content.brassPortal.brassPortalCoreBlock;
+import net.voyager.createportals.content.item.modItems;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -39,7 +39,7 @@ public class CreatePortals
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
-        modBlocks.register(modEventBus);
+        brassPortalCoreBlock.register(modEventBus);
         modItems.register(modEventBus);
 
         // Register the item to a creative tab
@@ -54,7 +54,7 @@ public class CreatePortals
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if(event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
-            event.accept(modBlocks.BRASS_PORTAL_BLOCK);
+            event.accept(brassPortalCoreBlock.BRASS_PORTAL_BLOCK);
         }
     }
 

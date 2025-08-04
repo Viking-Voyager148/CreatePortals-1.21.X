@@ -1,8 +1,6 @@
-package net.voyager.createportals.item;
+package net.voyager.createportals.content.item;
 
-import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.voyager.createportals.CreatePortals;
 
