@@ -18,7 +18,7 @@ public class brassPortalCoreBlockEntity extends KineticBlockEntity {
     public static final int MAX_LINKS = 9;
     public static final int MAX_FLUID = 8000;
 
-    private final List<String> portalLinks = new ArrayList<>Collections.nCopies()MAX_LINKS, "");
+    private final List<String> portalLinks = new ArrayList<>Collections.nCopies(MAX_LINKS, "");
     private int selectedIndex = 4;
     private String portalName = "";
     private boolean isNetworkLocked = false;
