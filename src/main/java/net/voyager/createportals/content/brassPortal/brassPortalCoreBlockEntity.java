@@ -43,7 +43,6 @@ public class brassPortalCoreBlockEntity extends KineticBlockEntity implements IH
             boolean isEnderFluid = fluidStack.getFluid().isSame(ModFluids.ENDER_FLUID.get());
 
             return correctSide && isEnderFluid;
-            return direction == blockFacing.getOpposite();
         });
         tank.allowExtraction((Direction direction, FluidStack fluidStack) -> {
             if (direction == null) return false;
