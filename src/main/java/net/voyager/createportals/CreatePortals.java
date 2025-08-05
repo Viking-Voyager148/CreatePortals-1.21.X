@@ -1,81 +1,57 @@
 package net.voyager.createportals;
 
-import net.minecraft.world.item.CreativeModeTabs;
-import net.voyager.createportals.content.brassPortal.brassPortalCoreBlock;
-import net.voyager.createportals.content.item.modItems;
-import org.slf4j.Logger;
-
-import com.mojang.logging.LogUtils;
-
-import net.minecraft.client.Minecraft;
-import net.neoforged.api.distmarker.Dist;
+import com.simibubi.create.Create;
+import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.simibubi.create.foundation.item.ItemDescription;
+import com.simibubi.create.foundation.item.TooltipModifier;
+import net.createmod.catnip.lang.FontHelper;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.fml.ModLoadingContext;
+import net.voyager.createportals.AllBlockTypes;
 
-// The value here should match an entry in the META-INF/neoforge.mods.toml file
+import org.slf4j.Logger;
+import com.mojang.logging.LogUtils;
+
 @Mod(CreatePortals.MODID)
-public class CreatePortals
-{
-    // Define mod id in a common place for everything to reference
+public class CreatePortals {
+
     public static final String MODID = "createportals";
-    // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
-    public CreatePortals(IEventBus modEventBus, ModContainer modContainer)
-    {
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
+    public static final Logger LOGGER = LogUtils.getLogger();
 
+    // Create's Registrate instance for registering content
+    public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MODID)
+            .defaultCreativeTab((ResourceKey<CreativeModeTab>) null)
+            .setTooltipModifierFactory(item ->
+                    new ItemDescription.Modifier(item, FontHelper.Palette.BLUE));
 
-        // Register ourselves for server and other game events we are interested in.
-        // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
-        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
-        NeoForge.EVENT_BUS.register(this);
-
-        brassPortalCoreBlock.register(modEventBus);
-        modItems.register(modEventBus);
-
-        // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
+    public CreatePortals(IEventBus modEventBus, ModContainer modContainer) {
+        CreatePortals.init(); // ✅ CALL THIS or nothing registers
+        modEventBus.addListener(this::onCommonSetup);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-
+    public static void init() {
+        AllBlockTypes.register();
+        AllBlockEntityTypes.register();
+        AllItems.register();
+    }
+    private void onCommonSetup(FMLCommonSetupEvent event) {
+        LOGGER.info("Common setup for Create Portals initialized.");
     }
 
-    // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if(event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
-            event.accept(brassPortalCoreBlock.BRASS_PORTAL_BLOCK);
+    public static class ClientModEvents {
+        public static void onClientSetup(FMLClientSetupEvent event) {
+            LOGGER.info("Client setup for Create Portals initialized.");
         }
     }
 
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents
-    {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-        }
+    public static ResourceLocation asResource(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MODID, path);
     }
 }

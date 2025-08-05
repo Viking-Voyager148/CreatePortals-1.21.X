@@ -1,40 +1,24 @@
 package net.voyager.createportals.content.brassPortal;
 
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.voyager.createportals.CreatePortals;
-import net.voyager.createportals.content.item.modItems;
-
-import java.util.function.Supplier;
+import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 
-
-public class brassPortalCoreBlock {
-    public static final DeferredRegister.Blocks BLOCKS =
-            DeferredRegister.createBlocks(CreatePortals.MODID);
-
-    public static final DeferredBlock<Block> BRASS_PORTAL_BLOCK = registerBlock("brass_portal_block",
-            () -> new Block(BlockBehaviour.Properties.of()
-                    .strength(4f).requiresCorrectToolForDrops().sound(SoundType.STONE)));
-
-
-    private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
-        DeferredBlock<T> toReturn = BLOCKS.register(name, block);
-        registerBlockItem(name, toReturn);
-        return toReturn;
+public class brassPortalCoreBlock extends HorizontalKineticBlock {
+    public brassPortalCoreBlock(Properties properties) {
+        super(properties);
     }
 
-    private static <T extends Block> void registerBlockItem(String name, DeferredBlock<T> block) {
-        modItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+    @Override
+    public Direction.Axis getRotationAxis(BlockState state) {
+        return null;
     }
 
-    public static void register(IEventBus eventBus) {
-        BLOCKS.register(eventBus);
+    public static boolean hasPipeTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
+        return state.getValue(HorizontalDirectionalBlock.FACING).getOpposite() == face;
     }
 }
