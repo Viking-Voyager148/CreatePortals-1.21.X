@@ -14,6 +14,12 @@ public class brassPortalCoreBlock extends HorizontalKineticBlock {
     }
 
     @Override
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return this.defaultBlockState()
+            .setValue(HORIZONTAL_FACING, context.getHorizontalDirection().getOpposite());
+	}
+    
+    @Override
     public Direction.Axis getRotationAxis(BlockState state) {
         return null;
     }
