@@ -16,7 +16,7 @@ import net.voyager.createportals.AllBlockEntityTypes;
 import java.util.List;
 
 
-public class brassPortalCoreBlockEntity extends KineticBlockEntity implements IHaveGoggleInformation {
+public class BrassPortalCoreBlockEntity extends KineticBlockEntity implements IHaveGoggleInformation {
 
     private static final int MAX_LINKS = 9;
     private static final int MAX_FLUID = 8000;
@@ -27,7 +27,7 @@ public class brassPortalCoreBlockEntity extends KineticBlockEntity implements IH
     static SmartFluidTankBehaviour tank;
     // private UUID networkID = null;
 
-    public brassPortalCoreBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+    public BrassPortalCoreBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
 
@@ -44,7 +44,7 @@ public class brassPortalCoreBlockEntity extends KineticBlockEntity implements IH
                 AllBlockEntityTypes.BRASS_PORTAL_CORE_BE.get(),
                 (be, direction) -> {
                     // Allow fluid access only from the back face
-                    if (direction == null || brassPortalCoreBlock.hasPipeTowards(be.getLevel(), be.getBlockPos(), be.getBlockState(), direction)) {
+                    if (direction == null || BrassPortalCoreBlock.hasPipeTowards(be.getLevel(), be.getBlockPos(), be.getBlockState(), direction)) {
                         return getTankCapability(); // exposes LazyOptional<IFluidHandler>
                     }
                     return null;

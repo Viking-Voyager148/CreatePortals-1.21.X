@@ -3,13 +3,14 @@ package net.voyager.createportals.content.brassPortal;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 
-public class brassPortalCoreBlock extends HorizontalKineticBlock {
-    public brassPortalCoreBlock(Properties properties) {
+public class BrassPortalCoreBlock extends HorizontalKineticBlock {
+    public BrassPortalCoreBlock(Properties properties) {
         super(properties);
     }
 
@@ -26,5 +27,9 @@ public class brassPortalCoreBlock extends HorizontalKineticBlock {
 
     public static boolean hasPipeTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
         return state.getValue(HorizontalDirectionalBlock.FACING).getOpposite() == face;
+    }
+
+    public Class<BrassPortalCoreBlockEntity> getBlockEntityClass() {
+        return BrassPortalCoreBlockEntity.class;
     }
 }
