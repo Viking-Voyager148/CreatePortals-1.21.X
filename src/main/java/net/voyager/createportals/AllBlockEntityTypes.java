@@ -13,7 +13,7 @@ public class AllBlockEntityTypes {
 
     public static final BlockEntityEntry<BrassPortalCoreBlockEntity> BRASS_PORTAL_CORE_BE = REGISTRATE
             .blockEntity("brass_portal_core", BrassPortalCoreBlockEntity::new)
-            .validBlocks(AllBlockTypes.BRASS_PORTAL_CORE_BLOCK)
+            .validBlocks(AllBlockTypes.BRASS_PORTAL_CORE_BLOCK::get)
             .register();
 
     public static void register() {

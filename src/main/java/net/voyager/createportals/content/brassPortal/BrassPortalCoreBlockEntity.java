@@ -5,6 +5,8 @@ import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -24,37 +26,26 @@ public class BrassPortalCoreBlockEntity extends KineticBlockEntity implements IH
     // private final List<PortalEntry> portalLinks = new ArrayList<>(Collections.nCopies(MAX_LINKS, null));
 
     // private int selectedIndex = 4;
-    static SmartFluidTankBehaviour tank;
+    SmartFluidTankBehaviour tank;
     // private UUID networkID = null;
 
-    public BrassPortalCoreBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-    }
-
-    public static IFluidHandler getTankCapability() {
-        return tank.getCapability();
-    }
-
-    protected void onTankContentsChanged(FluidStack contents) {
-    }
-
-    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(
-                Capabilities.FluidHandler.BLOCK,
-                AllBlockEntityTypes.BRASS_PORTAL_CORE_BE.get(),
-                (be, direction) -> {
-                    // Allow fluid access only from the back face
-                    if (direction == null || BrassPortalCoreBlock.hasPipeTowards(be.getLevel(), be.getBlockPos(), be.getBlockState(), direction)) {
-                        return getTankCapability(); // exposes LazyOptional<IFluidHandler>
-                    }
-                    return null;
-                }
-        );
-    }
 
     @Override
     public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
         tank = SmartFluidTankBehaviour.single(this, MAX_FLUID);
         behaviours.add(tank);
+    }
+
+    public BrassPortalCoreBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
+
+    public SmartFluidTankBehaviour getTank() {
+        return tank;
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        return containedFluidTooltip(tooltip, isPlayerSneaking, tank.getCapability());
     }
 }
