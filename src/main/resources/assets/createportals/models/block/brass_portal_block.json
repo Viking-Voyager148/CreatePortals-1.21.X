@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "createportals:block/brass_portal_block"
+    "all": "createportals:block/brass_portal_core"
   }
 }
