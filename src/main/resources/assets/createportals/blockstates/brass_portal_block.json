@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "createportals:block/brass_portal_block"
+      "model": "createportals:block/brass_portal_core"
     }
   }
 }
