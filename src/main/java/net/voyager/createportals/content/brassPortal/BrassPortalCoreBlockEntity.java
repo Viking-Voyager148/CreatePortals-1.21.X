@@ -39,11 +39,18 @@ public class BrassPortalCoreBlockEntity extends KineticBlockEntity implements IH
     public BrassPortalCoreBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
-
-    public SmartFluidTankBehaviour getTank() {
-        return tank;
-    }
-
+    
+	@Override
+	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        Direction rear = getBlockState()
+            .getValue(BlockStateProperties.HORIZONTAL_FACING)
+            .getOpposite();
+		if (cap == ForgeCapabilities.FLUID_HANDLER && side == rear)
+			return tank.getCapability()
+				.cast();
+		return super.getCapability(cap, side);
+	}
+    
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         return containedFluidTooltip(tooltip, isPlayerSneaking, tank.getCapability());
