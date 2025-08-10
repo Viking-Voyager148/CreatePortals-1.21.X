@@ -46,29 +46,7 @@ public class BrassPortalCoreBlock extends HorizontalKineticBlock implements IWre
 
     public boolean hasPipeTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
         return state.getValue(HORIZONTAL_FACING)
-                .getCounterClockWise() == face;
-    }
-
-    @Override
-    public Direction getPreferredHorizontalFacing(BlockPlaceContext context) {
-        Direction fromParent = super.getPreferredHorizontalFacing(context);
-        if (fromParent != null)
-            return fromParent;
-
-        Direction prefferedSide = null;
-        for (Direction facing : Iterate.horizontalDirections) {
-            BlockPos pos = context.getClickedPos()
-                    .relative(facing);
-            BlockState blockState = context.getLevel()
-                    .getBlockState(pos);
-            if (FluidPipeBlock.canConnectTo(context.getLevel(), pos, blockState, facing))
-                if (prefferedSide != null && prefferedSide.getAxis() != facing.getAxis()) {
-                    prefferedSide = null;
-                    break;
-                } else
-                    prefferedSide = facing;
-        }
-        return prefferedSide == null ? null : prefferedSide.getOpposite();
+                .getOpposite() == face;
     }
 
     @Override
