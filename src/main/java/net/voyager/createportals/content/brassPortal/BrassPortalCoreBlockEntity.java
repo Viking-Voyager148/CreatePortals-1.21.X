@@ -23,30 +23,19 @@ public class BrassPortalCoreBlockEntity extends KineticBlockEntity implements IH
     private static final int MAX_LINKS = 9;
     private static final int MAX_FLUID = 8000;
 
-    // private final List<PortalEntry> portalLinks = new ArrayList<>(Collections.nCopies(MAX_LINKS, null));
-
-    // private int selectedIndex = 4;
-    SmartFluidTankBehaviour tank;
-    // private UUID networkID = null;
-
-
-    @Override
-    public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
-        tank = SmartFluidTankBehaviour.single(this, MAX_FLUID);
-        behaviours.add(tank);
-    }
+	BrassPortalCoreBlockTank = internalTank;
+	protected LazyOptional<IFluidHandler> fluidCapability;
 
     public BrassPortalCoreBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+		fluidCapability = LazyOptional.of(() -> internalTank)
     }
     
 	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        Direction rear = getBlockState()
-            .getValue(BlockStateProperties.HORIZONTAL_FACING)
-            .getOpposite();
-		if (cap == ForgeCapabilities.FLUID_HANDLER && side == rear)
-			return tank.getCapability()
+	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction side) {
+		if (isFluidHandlerCap(cap) 
+			&& (side == null || BrassPortalCoreBlock.hasPipeTowards(side)))
+			return this.fluidCapability
 				.cast();
 		return super.getCapability(cap, side);
 	}
